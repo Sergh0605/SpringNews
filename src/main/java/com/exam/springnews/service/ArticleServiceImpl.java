@@ -55,7 +55,7 @@ public class ArticleServiceImpl implements ArticlesService {
         }
         if (ArticleUtils.isValidCategory(category)) {
             List<ArticleEntity> articleEntities = articlesRepository.
-                    findArticleEntitiesByCategoryOrderByPublicationDateTime(ArticleEntityCategories.valueOf(category));
+                    findArticleEntitiesByCategory(ArticleEntityCategories.valueOf(category), sortByPublicationDateTime);
             return ArticleUtils.toDtoListConverter(articleEntities);
         }
         throw new ArticleServiceException("Category " + category + " not found.");

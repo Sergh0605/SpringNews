@@ -8,6 +8,13 @@ view articles.
 Developed with Java 17 and Spring Boot. Database is embedded H2. It stores data in file. 
 Database file and log catalog will create automatically in folder of application jar file.
 
+##Built With
+SpringBoot
+SpringData
+Liquibase
+Lombok
+Logback
+
 ## Getting Started
 
 ### For Desktop Windows
@@ -15,7 +22,7 @@ Database file and log catalog will create automatically in folder of application
 1. Install Java from this link  https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe
 2. Copy SpringNews-0.1.0.jar file to any catalog in your PC. (For example C:\SpringNews)
 3. Start application by double-click on SpringNews.jar.
-4. Open your browser and copy application URL (http://localhost:8085/) into address line.
+4. Open your browser and copy application URL (http://localhost:8085/) into address line to have access the application.
 5. To turn off this application you need to open Windows built in TaskManager application and remove Java(TM) Platform
    SE binary task.
 
@@ -46,4 +53,28 @@ Database file and log catalog will create automatically in folder of application
 
 2. Download application jar file.
 
+   Link for downloading application jar file: https://github.com/Sergh0605/SpringNews/raw/master/SpringNews-0.1.0.jar
+
+   Download application jar to your server catalog:
+
+   wget -P SpringNews https://github.com/Sergh0605/SpringNews/raw/master/SpringNews-0.1.0.jar
+
+   Move to application catalog:
+
+   cd SpringNews
+
+3. Start application: java -jar SpringNews-0.1.0.jar
+4. Stop application: press Ctrl+C
+
+
+##Using the App
+
+1. Open your browser and put application URL (http://server_ip:8085/) into address line to access the application.
+2. The main page contains the 10 most recent articles sorted by date.
+3. Click on the title of the article to open the full article content.
+4. To select a category of articles click on links at the top of the page.
+5. To upload new article click on link "UPLOAD" at the top of the page.
+6. For Linux-based server, it is possible to upload articles in Russian and English.
+7. For Windows-based server, it is possible to upload articles in English only.
+   
    

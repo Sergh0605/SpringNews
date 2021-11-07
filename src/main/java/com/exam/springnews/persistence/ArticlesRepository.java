@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ArticlesRepository extends CrudRepository<ArticleEntity, Long> {
-    List<ArticleEntity> findArticleEntitiesByCategoryOrderByPublicationDateTime(ArticleEntityCategories category);
+    List<ArticleEntity> findArticleEntitiesByCategory(ArticleEntityCategories category, Sort sort);
 
     List<ArticleEntity> findAll(Sort sort);
 

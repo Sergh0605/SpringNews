@@ -1,0 +1,16 @@
+package com.exam.springnews.persistence;
+
+import com.exam.springnews.persistence.entity.user.UserEntity;
+import com.exam.springnews.persistence.entity.user.UserEntityRoles;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+@Repository
+public interface UsersRepository extends CrudRepository<UserEntity, Long> {
+    Optional<List<UserEntity>> findAllByRoleOrderByAuthorName(UserEntityRoles role);
+    Optional<UserEntity> findById(Long id);
+}

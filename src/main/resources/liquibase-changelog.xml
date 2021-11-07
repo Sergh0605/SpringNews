@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd
+                   http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd">
+    <changeSet id="DBInitialization-1" author="S.Puzakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="article"/>
+            </not>
+        </preConditions>
+        <createTable tableName="article">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="PK_article"/>
+            </column>
+            <column name="headline" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="CLOB" encoding="UTF-8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="category" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateTime_publication" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="DBInitialization-2" author="S.Puzakov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" primaryKeyName="PK_user"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="DBInitialization-3" author="S.Puzakov">
+        <preConditions>
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_article_user"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="article"
+                                 baseColumnNames="author_id"
+                                 constraintName="FK_article_user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="DBInitialization-4" author="S.Puzakov">
+        <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*) FROM user
+                </sqlCheck>
+        </preConditions>
+        <comment>Fill table USER</comment>
+        <insert tableName="user">
+            <column name="id" value="1"/>
+            <column name="login" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="role" value="ADMIN"/>
+            <column name="name" value="ADMIN"/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="2"/>
+            <column name="login" value="user"/>
+            <column name="password" value="user"/>
+            <column name="role" value="USER"/>
+            <column name="name" value="USER"/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="3"/>
+            <column name="login" value="author1"/>
+            <column name="password" value="author1"/>
+            <column name="role" value="AUTHOR"/>
+            <column name="name" value="Иванов И. И."/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="4"/>
+            <column name="login" value="author2"/>
+            <column name="password" value="author2"/>
+            <column name="role" value="AUTHOR"/>
+            <column name="name" value="Петров П. П."/>
+        </insert>
+        <insert tableName="user">
+            <column name="id" value="5"/>
+            <column name="login" value="author3"/>
+            <column name="password" value="author3"/>
+            <column name="role" value="AUTHOR"/>
+            <column name="name" value="Сидоров С. С."/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="DBInitialization-5" author="S.Puzakov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM article
+            </sqlCheck>
+        </preConditions>
+        <comment>Fill table ARTICLE</comment>
+        <insert tableName="article">
+            <column name="id" value="1"/>
+            <column name="headline" value="Очень интересная статья"/>
+            <column name="text" value="Крайне интересное содержимое очень интересной статьи."/>
+            <column name="author_id" value="5"/>
+            <column name="category" value="SPORT"/>
+            <column name="dateTime_publication" value="2021-01-01 00:00:01"/>
+        </insert>
+        <insert tableName="article">
+            <column name="id" value="2"/>
+            <column name="headline" value="Первое правило машинного обучения: начните без машинного обучения"/>
+            <column name="text" value="Эффективное использование машинного обучения — сложная задача. Вам нужны данные. Вам нужен надёжный конвейер, поддерживающий потоки данных. И больше всего вам нужна высококачественная разметка. Поэтому чаще всего первая итерация моих проектов вообще не использует машинное обучение."/>
+            <column name="author_id" value="4"/>
+            <column name="category" value="SCIENCE"/>
+            <column name="dateTime_publication" value="2021-01-02 00:00:01"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

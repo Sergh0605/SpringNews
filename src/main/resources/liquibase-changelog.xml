@@ -70,9 +70,9 @@
 
     <changeSet id="DBInitialization-4" author="S.Puzakov">
         <preConditions onFail="MARK_RAN">
-                <sqlCheck expectedResult="0">
-                    SELECT COUNT(*) FROM user
-                </sqlCheck>
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM user
+            </sqlCheck>
         </preConditions>
         <comment>Fill table USER</comment>
         <insert tableName="user">
@@ -130,9 +130,26 @@
         <insert tableName="article">
             <column name="id" value="2"/>
             <column name="headline" value="Первое правило машинного обучения: начните без машинного обучения"/>
-            <column name="text" value="Эффективное использование машинного обучения — сложная задача. Вам нужны данные. Вам нужен надёжный конвейер, поддерживающий потоки данных. И больше всего вам нужна высококачественная разметка. Поэтому чаще всего первая итерация моих проектов вообще не использует машинное обучение."/>
+            <column name="text"
+                    value="Эффективное использование машинного обучения — сложная задача. Вам нужны данные. Вам нужен надёжный конвейер, поддерживающий потоки данных. И больше всего вам нужна высококачественная разметка. Поэтому чаще всего первая итерация моих проектов вообще не использует машинное обучение."/>
             <column name="author_id" value="4"/>
             <column name="category" value="SCIENCE"/>
+            <column name="dateTime_publication" value="2021-01-02 00:00:01"/>
+        </insert>
+        <insert tableName="article">
+            <column name="id" value="3"/>
+            <column name="headline" value="Owen Paterson: Boris Johnson's actions corrupt - Starmer"/>
+            <column name="text" value="Labour's Sir Keir Starmer has accused the PM of corrupt and contemptible behaviour in trying to protect Tory MP Owen Paterson, after he was found to have broken lobbying rules. Sir Keir told the BBC the government was trashing the UK's reputation for upholding democratic standards. Mr Paterson has now quit as an MP. Ministers backed plans to change the standards system that found Mr Paterson guilty but changed their minds the next day, following a political outcry. The vote to reform the rules - backed by MPs on Wednesday - also put on hold a 30-day House of Commons suspension Mr Paterson was facing for breaching the rules by lobbying on behalf of two private companies. But Environment Secretary George Eustice defended the government's position, saying it had been trying to give politicians under investigation the right to appeal against any findings against them - rather than protect Mr Paterson.            "/>
+            <column name="author_id" value="3"/>
+            <column name="category" value="POLITICS"/>
+            <column name="dateTime_publication" value="2021-01-02 00:00:01"/>
+        </insert>
+        <insert tableName="article">
+            <column name="id" value="4"/>
+            <column name="headline" value="Elon Musk holds Twitter vote over $21bn Tesla share sale"/>
+            <column name="text" value="Tesla billionaire Elon Musk has launched a Twitter poll of his 62.6 million followers asking if he should sell 10% of his shares. The vote, which closes later on Sunday, could see him dispose of $21bn (£16bn) of stock in the electric carmaker. He promised to abide by the result of the poll, a response to a billionaires tax proposed by US Democrats. The plan could see Mr Musk, who is one of the world's richest men, face a huge tax bill. By mid-afternoon on Sunday, with about 3 hours to go before the poll closes, 57.2% of the 3.2 million respondents had voted yes."/>
+            <column name="author_id" value="3"/>
+            <column name="category" value="POLITICS"/>
             <column name="dateTime_publication" value="2021-01-02 00:00:01"/>
         </insert>
     </changeSet>

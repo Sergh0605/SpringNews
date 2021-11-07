@@ -90,6 +90,7 @@ public class ArticleServiceImpl implements ArticlesService {
             List<ArticleEntity> articleEntities = saveArticles(articleDtos, user, ArticleEntityCategories.valueOf(category));
             return ArticleUtils.toDtoListConverter(articleEntities);
         } catch (IOException ex) {
+            log.debug(ex.getMessage());
             throw new CustomFileUploadException("ZIP file read error.");
         }
     }

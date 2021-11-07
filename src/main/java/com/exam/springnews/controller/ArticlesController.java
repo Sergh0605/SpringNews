@@ -96,6 +96,9 @@ public class ArticlesController {
         try {
             String realPathToUploads = request.getServletContext().getRealPath("");
             List<ArticleDto> newArticles = articlesService.createArticle(file, category, userId, maxCountOfFilesInZip, minCountOfLinesInArticleFile, realPathToUploads);
+            for (ArticleDto articleDto : newArticles) {
+                log.debug(String.format("New article with Id=%s uploaded", articleDto.getId()));
+            }
             return "redirect:/article/" + newArticles.get(0).getId();
         } catch (CustomApplicationException e) {
             log.debug(e.getMessage());

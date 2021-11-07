@@ -5,10 +5,10 @@ import com.exam.springnews.exceptions.CustomApplicationException;
 import com.exam.springnews.exceptions.CustomFileUploadException;
 import com.exam.springnews.persistence.entity.article.ArticleEntity;
 import com.exam.springnews.persistence.entity.article.ArticleEntityCategories;
-import org.springframework.web.multipart.MultipartFile;
+import com.exam.springnews.service.ArticleServiceImpl;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -16,7 +16,10 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class ArticleUtils {
+    private final static Logger log = getLogger(ArticleServiceImpl.class);
     public static boolean isValidCategory(String category) {
         for (ArticleEntityCategories c : ArticleEntityCategories.values()) {
             if (c.name().equalsIgnoreCase(category)) return true;
@@ -58,6 +61,7 @@ public class ArticleUtils {
             String fullText = bufferedReaderForLineReading.lines().collect(Collectors.joining());
             return ArticleDto.builder().headline(headLine).fullText(fullText).build();
         } catch (IOException e) {
+            log.debug(e.getMessage());
             throw new CustomFileUploadException("ZIP file read error.");
         }
     }

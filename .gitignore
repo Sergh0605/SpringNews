@@ -33,3 +33,5 @@ build/
 .vscode/
 
 log
+springnewsTest.mv.db
+springnewsTest.trace.db

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.exam</groupId>
     <artifactId>SpringNews</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>SpringNews</name>
     <description>SpringNews</description>
     <properties>

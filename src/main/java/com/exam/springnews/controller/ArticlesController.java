@@ -2,14 +2,11 @@ package com.exam.springnews.controller;
 
 import com.exam.springnews.dto.ArticleDto;
 import com.exam.springnews.dto.UserDto;
-import com.exam.springnews.exceptions.ArticleServiceException;
 import com.exam.springnews.exceptions.CustomApplicationException;
 import com.exam.springnews.service.ArticleServiceImpl;
 import com.exam.springnews.service.ArticlesService;
 import com.exam.springnews.service.UserService;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,20 +23,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Controller
 public class ArticlesController {
-    private final static Logger log = getLogger(ArticleServiceImpl.class);
+    private static final Logger log = getLogger(ArticleServiceImpl.class);
     private final ArticlesService articlesService;
     private final UserService userService;
-    @Value("${zipProperties.maxCountOfFilesInZip:1}")
-    private Integer maxCountOfFilesInZip;
-    @Value("${zipProperties.minCountOfLinesInArticleFile:2}")
-    private Integer minCountOfLinesInArticleFile;
+    private final HttpServletRequest request;
 
-    @Autowired
-    private HttpServletRequest request;
-
-    public ArticlesController(ArticlesService articlesService, UserService userService) {
+    public ArticlesController(ArticlesService articlesService, UserService userService, HttpServletRequest request) {
         this.articlesService = articlesService;
         this.userService = userService;
+        this.request = request;
     }
 
     @GetMapping(value = {"/", "/index"})
@@ -95,11 +87,15 @@ public class ArticlesController {
         }
         try {
             String realPathToUploads = request.getServletContext().getRealPath("");
-            List<ArticleDto> newArticles = articlesService.createArticle(file, category, userId, maxCountOfFilesInZip, minCountOfLinesInArticleFile, realPathToUploads);
+            List<ArticleDto> newArticles = articlesService.createArticle(file, category, userId, realPathToUploads);
             for (ArticleDto articleDto : newArticles) {
                 log.debug(String.format("New article with Id=%s uploaded", articleDto.getId()));
             }
-            return "redirect:/article/" + newArticles.get(0).getId();
+            if (newArticles.isEmpty()) {
+                String message = "Error saving articles to the database.";
+                log.debug(message);
+                throw new CustomApplicationException(message);
+            } else return "redirect:/article/" + newArticles.get(0).getId();
         } catch (CustomApplicationException e) {
             log.debug(e.getMessage());
             attributes.addFlashAttribute("warningMessage", e.getMessage());

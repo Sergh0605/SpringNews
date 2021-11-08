@@ -8,7 +8,7 @@ view articles.
 Developed with Java 17 and Spring Boot. Database is embedded H2. It stores data in file. 
 Database file and log catalog will create automatically in folder of application jar file.
 
-##Built With
+## Built With
 SpringBoot
 SpringData
 Liquibase
@@ -67,7 +67,7 @@ Logback
 4. Stop application: press Ctrl+C
 
 
-##Using the App
+## Using the App
 
 1. Open your browser and put application URL (http://server_ip:8085/) into address line to access the application.
 2. The main page contains the 10 most recent articles sorted by date.

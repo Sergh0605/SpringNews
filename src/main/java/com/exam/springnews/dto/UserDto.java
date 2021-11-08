@@ -13,7 +13,7 @@ public class UserDto {
     private String login;
     private Long id;
 
-    public UserDto(UserEntity user){
+    public UserDto(UserEntity user) {
         this.name = user.getAuthorName();
         this.login = user.getLogin();
         this.id = user.getId();

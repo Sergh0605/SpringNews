@@ -20,6 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class ArticleUtils {
     private final static Logger log = getLogger(ArticleServiceImpl.class);
+
     public static boolean isValidCategory(String category) {
         for (ArticleEntityCategories c : ArticleEntityCategories.values()) {
             if (c.name().equalsIgnoreCase(category)) return true;
@@ -38,11 +39,15 @@ public class ArticleUtils {
         if (zipFile.stream().findAny().isEmpty()) throw new CustomFileUploadException("ZIP is empty.");
         if (zipFile.stream().count() > maxCountOfFilesInZip)
             throw new CustomFileUploadException("There is more than " + maxCountOfFilesInZip + " files in the ZIP.");
-        ZipEntry zipEntry = zipFile.entries().nextElement();
-        if (!zipEntry.getName().equals("article.txt"))
-            throw new CustomFileUploadException("The file article.txt is missing in the ZIP.");
+        if (maxCountOfFilesInZip == 1) {
+            ZipEntry zipEntry = zipFile.entries().nextElement();
+            if (!zipEntry.getName().equals("article.txt"))
+                throw new CustomFileUploadException("The file article.txt is missing in the ZIP.");
+        }
         Map<ZipEntry, ZipFile> outputMap = new HashMap<>();
-        outputMap.put(zipEntry, zipFile);
+        zipFile.stream().forEach(e -> {
+            outputMap.put(e, zipFile);
+        });
         return outputMap;
     }
 

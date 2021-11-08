@@ -3,8 +3,8 @@ package com.exam.springnews.dto;
 import com.exam.springnews.persistence.entity.article.ArticleEntity;
 import lombok.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class ArticleDto {
     private String shortText;
     private String fullText;
     private String author;
-    private LocalDateTime publicationDateTime;
+    private Date publicationDateTime;
 
     public ArticleDto(ArticleEntity article) {
         this.id = article.getId();
@@ -25,7 +25,7 @@ public class ArticleDto {
         this.fullText = article.getText();
         this.author = article.getUser().getAuthorName();
         this.shortText = generateShortText(fullText);
-        this.publicationDateTime = new Timestamp(article.getPublicationDateTime().getTime()).toLocalDateTime() ;
+        this.publicationDateTime = article.getPublicationDateTime();
     }
 
     private String generateShortText(String fullText) {
@@ -34,5 +34,10 @@ public class ArticleDto {
             return fullText.substring(0, 200) + suffix;
         }
         return fullText + suffix;
+    }
+
+    public String getPublicationTimeWithFormat() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy   HH:mm");
+        return dateFormat.format(getPublicationDateTime());
     }
 }

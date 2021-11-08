@@ -10,6 +10,7 @@ import com.exam.springnews.persistence.entity.article.ArticleEntityCategories;
 import com.exam.springnews.persistence.entity.user.UserEntity;
 import com.exam.springnews.utils.ArticleUtils;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -30,22 +31,29 @@ public class ArticleServiceImpl implements ArticlesService {
     private final ArticlesRepository articlesRepository;
     private final UserService userService;
 
+    @Value("${zipProperties.maxCountOfFilesInZip:1}")
+    private Integer maxCountOfFilesInZip;
+    @Value("${zipProperties.minCountOfLinesInArticleFile:2}")
+    private Integer minCountOfLinesInArticleFile;
+
     public ArticleServiceImpl(ArticlesRepository articlesRepository, UserService userService) {
         this.articlesRepository = articlesRepository;
         this.userService = userService;
     }
 
     @Override
-    @Transactional
-    public ArticleDto fetchById(Integer id) throws ArticleServiceException{
+    @Transactional(readOnly = true)
+    public ArticleDto fetchById(Integer id) throws ArticleServiceException {
         Optional<ArticleEntity> article = articlesRepository.findById(id.longValue());
         if (article.isPresent()) {
             return article.map(ArticleDto::new).orElse(null);
-        } else {throw new ArticleServiceException("Article whith Id = " + id + " not found");}
+        } else {
+            throw new ArticleServiceException("Article whith Id = " + id + " not found");
+        }
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ArticleDto> fetchByCategory(String category) throws ArticleServiceException {
         if (category.equalsIgnoreCase("all")) {
             return fetchAll();
@@ -66,8 +74,6 @@ public class ArticleServiceImpl implements ArticlesService {
     public List<ArticleDto> createArticle(MultipartFile file,
                                           String category,
                                           Long userId,
-                                          Integer maxCountOfFilesInZip,
-                                          Integer minCountOfLinesInArticle,
                                           String realPathToUpload) throws CustomApplicationException {
         try {
             if (!(file.getContentType() == null) && !file.getContentType().contains("zip")) {
@@ -79,7 +85,7 @@ public class ArticleServiceImpl implements ArticlesService {
             ZipFile zipFile = new ZipFile(tempFile);
             List<ArticleDto> articleDtos;
             try {
-                articleDtos = ArticleUtils.readZipToArticleListWithValidation(zipFile, maxCountOfFilesInZip, minCountOfLinesInArticle);
+                articleDtos = ArticleUtils.readZipToArticleListWithValidation(zipFile, maxCountOfFilesInZip, minCountOfLinesInArticleFile);
             } finally {
                 zipFile.close();
                 tempFile.delete();
@@ -112,14 +118,14 @@ public class ArticleServiceImpl implements ArticlesService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ArticleDto> fetchAll() {
         List<ArticleEntity> articleEntities = articlesRepository.findAll(sortByPublicationDateTime);
         return ArticleUtils.toDtoListConverter(articleEntities);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ArticleDto> fetchNewest(Integer count) {
         List<ArticleEntity> articleEntities = articlesRepository.
                 findAll(PageRequest.of(0, count, sortByPublicationDateTime)).getContent();

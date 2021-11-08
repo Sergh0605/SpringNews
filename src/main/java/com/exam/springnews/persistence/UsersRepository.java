@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface UsersRepository extends CrudRepository<UserEntity, Long> {
     Optional<List<UserEntity>> findAllByRoleOrderByAuthorName(UserEntityRoles role);
+
     Optional<UserEntity> findById(Long id);
 }

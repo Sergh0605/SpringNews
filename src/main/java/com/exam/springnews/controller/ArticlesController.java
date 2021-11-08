@@ -50,7 +50,6 @@ public class ArticlesController {
             log.debug(e.getMessage());
             return "error";
         }
-
     }
 
     @GetMapping(value = "/articles/{category}")
@@ -60,7 +59,7 @@ public class ArticlesController {
             model.addAttribute("articles", articles);
             model.addAttribute("category", category);
             return "index";
-        } catch (CustomApplicationException e) {
+        } catch (Exception e) {
             log.debug(e.getMessage());
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
@@ -69,18 +68,25 @@ public class ArticlesController {
 
     @GetMapping(value = "/new_article")
     public String goToUploadPage(Model model) {
-        List<UserDto> users = userService.fetchAuthors();
-        List<String> categories = articlesService.fetchAllCategories();
-        model.addAttribute("users", users);
-        model.addAttribute("categories", categories);
-        return "upload";
+        try {
+            List<UserDto> users = userService.fetchAuthors();
+            List<String> categories = articlesService.fetchAllCategories();
+            model.addAttribute("users", users);
+            model.addAttribute("categories", categories);
+            return "upload";
+        } catch (Exception e) {
+            log.debug(e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
 
     @PostMapping("/upload")
     public String uploadArticle(@RequestParam("file") MultipartFile file,
                                 @RequestParam("category") String category,
                                 @RequestParam("userId") Long userId,
-                                RedirectAttributes attributes) {
+                                RedirectAttributes attributes,
+                                Model model) {
         if (file.isEmpty()) {
             attributes.addFlashAttribute("warningMessage", "Please select a file to upload");
             return "redirect:/new_article";
@@ -100,6 +106,10 @@ public class ArticlesController {
             log.debug(e.getMessage());
             attributes.addFlashAttribute("warningMessage", e.getMessage());
             return "redirect:/new_article";
+        } catch (Exception e) {
+            log.debug(e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
         }
     }
 }

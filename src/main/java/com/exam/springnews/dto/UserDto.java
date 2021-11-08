@@ -11,11 +11,14 @@ import lombok.*;
 public class UserDto {
     private String name;
     private String login;
+    private String password;
     private Long id;
+    private String role;
 
     public UserDto(UserEntity user) {
         this.name = user.getAuthorName();
         this.login = user.getLogin();
+        this.role = user.getRole().toString();
         this.id = user.getId();
     }
 }

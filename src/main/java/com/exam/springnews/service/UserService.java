@@ -9,4 +9,10 @@ public interface UserService {
     List<UserDto> fetchAuthors();
 
     UserEntity fetchUserById(Long id);
+
+    List<UserDto> fetchAll();
+
+    List<UserDto> fetchByUserRole(String role);
+
+    UserDto createUser(UserDto dto);
 }

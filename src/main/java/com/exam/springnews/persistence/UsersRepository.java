@@ -10,7 +10,11 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends CrudRepository<UserEntity, Long> {
-    Optional<List<UserEntity>> findAllByRoleOrderByAuthorName(UserEntityRoles role);
+    List<UserEntity> findAllByRoleOrderByAuthorName(UserEntityRoles role);
 
     Optional<UserEntity> findById(Long id);
+
+    List<UserEntity> findAll();
+
+    Optional<UserEntity> findByLogin(String login);
 }

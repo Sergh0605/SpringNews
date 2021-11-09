@@ -10,7 +10,19 @@ will create automatically in folder of application jar file.
 
 ## Built With
 
-SpringBoot SpringData Liquibase Lombok Logback Swagger
+SpringBoot
+
+SpringData
+
+Liquibase
+
+Lombok
+
+Logback
+
+Swagger
+
+JUnit
 
 ## Getting Started
 
@@ -25,7 +37,7 @@ SpringBoot SpringData Liquibase Lombok Logback Swagger
 
 ### For Linux Server (Debian example)
 
-1. Install Java.
+#### 1. Install Java.
 
    Add the Linux Uprising Oracle Java PPA repository (and its key) and update the software sources. Use Terminal:
 
@@ -50,7 +62,7 @@ SpringBoot SpringData Liquibase Lombok Logback Swagger
 
    To check which Java version is set as default on your system, you could run java -version
 
-2. Download application jar file.
+#### 2. Download application jar file.
 
    Link for downloading application jar file: https://github.com/Sergh0605/SpringNews/raw/master/SpringNews-0.1.0.jar
 
@@ -62,8 +74,8 @@ SpringBoot SpringData Liquibase Lombok Logback Swagger
 
    cd SpringNews
 
-3. Start application: java -jar SpringNews-0.1.0.jar
-4. Stop application: press Ctrl+C
+#### 3. Start application: java -jar SpringNews-0.1.0.jar
+#### 4. Stop application: press Ctrl+C
 
 ## Using the App
 
@@ -72,10 +84,15 @@ SpringBoot SpringData Liquibase Lombok Logback Swagger
 3. Click on the title of the article to open the full article content.
 4. To select a category of articles click on links at the top of the page.
 5. To upload new article click on link "UPLOAD" at the top of the page.
-6. For Linux-based server, it is possible to upload articles in Russian and English.
-7. For Windows-based server, it is possible to upload articles in English only.
 
 ## REST API
 
 - REST API available at http://server_ip:8085/api/*
 - You can use Swagger UI to see API commands. Swagger UI available at http://server_ip:8085/swagger-ui/
+
+## Limits
+1. For Linux-based server, it is possible to upload articles in Russian and English.
+2. For Windows-based server, it is possible to upload articles in English only.
+3. Maximum upload size of file is 1Mb.
+4. For successful upload ZIP must contain only article.txt file and article.txt file must contain at least two the file must contain at least two non-blank lines.
+5. Encoding for article.txt is UTF-8 only.

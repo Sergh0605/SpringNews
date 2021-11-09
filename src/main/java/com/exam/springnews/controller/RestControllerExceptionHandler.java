@@ -17,19 +17,17 @@ public class RestControllerExceptionHandler {
 
     private static final Logger log = getLogger(ArticleServiceImpl.class);
 
-    @ExceptionHandler
+    @ExceptionHandler(CustomApplicationException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorDto handleRuntimeException(CustomApplicationException e) {
-        log.debug(e.getMessage());
         return new ErrorDto(e.getMessage());
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ErrorDto handleRuntimeException(RuntimeException e) {
-        log.debug(e.getMessage());
+    public ErrorDto handleRuntimeException(Exception e) {
         return new ErrorDto(e.getMessage());
     }
 

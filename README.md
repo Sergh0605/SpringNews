@@ -5,15 +5,12 @@ view articles.
 
 ## Prerequisites
 
-Developed with Java 17 and Spring Boot. Database is embedded H2. It stores data in file. 
-Database file and log catalog will create automatically in folder of application jar file.
+Developed with Java 17 and Spring Boot. Database is embedded H2. It stores data in file. Database file and log catalog
+will create automatically in folder of application jar file.
 
 ## Built With
-SpringBoot
-SpringData
-Liquibase
-Lombok
-Logback
+
+SpringBoot SpringData Liquibase Lombok Logback Swagger
 
 ## Getting Started
 
@@ -27,13 +24,15 @@ Logback
    SE binary task.
 
 ### For Linux Server (Debian example)
+
 1. Install Java.
 
    Add the Linux Uprising Oracle Java PPA repository (and its key) and update the software sources. Use Terminal:
 
    su
 
-   echo "deb http://ppa.launchpad.net/linuxuprising/java/ubuntu focal main" | tee /etc/apt/sources.list.d/linuxuprising-java.list
+   echo "deb http://ppa.launchpad.net/linuxuprising/java/ubuntu focal main" | tee
+   /etc/apt/sources.list.d/linuxuprising-java.list
 
    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 73C3DB2A
 
@@ -66,7 +65,6 @@ Logback
 3. Start application: java -jar SpringNews-0.1.0.jar
 4. Stop application: press Ctrl+C
 
-
 ## Using the App
 
 1. Open your browser and put application URL (http://server_ip:8085/) into address line to access the application.
@@ -76,5 +74,8 @@ Logback
 5. To upload new article click on link "UPLOAD" at the top of the page.
 6. For Linux-based server, it is possible to upload articles in Russian and English.
 7. For Windows-based server, it is possible to upload articles in English only.
-   
-   
+
+## REST API
+
+- REST API available at http://server_ip:8085/api/*
+- You can use Swagger UI to see API commands. Swagger UI available at http://server_ip:8085/swagger-ui/

@@ -94,5 +94,5 @@ JUnit
 1. For Linux-based server, it is possible to upload articles in Russian and English.
 2. For Windows-based server, it is possible to upload articles in English only.
 3. Maximum upload size of file is 1Mb.
-4. For successful upload ZIP must contain only article.txt file and article.txt file must contain at least two the file must contain at least two non-blank lines.
+4. For successful upload ZIP must contain only article.txt file and file must contain at least two non-blank lines.
 5. Encoding for article.txt is UTF-8 only.

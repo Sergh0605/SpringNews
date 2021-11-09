@@ -63,7 +63,7 @@ public class ArticleServiceImpl implements ArticlesService {
         }
         if (ArticleUtils.isValidCategory(category)) {
             List<ArticleEntity> articleEntities = articlesRepository.
-                    findArticleEntitiesByCategory(ArticleEntityCategories.valueOf(category), sortByPublicationDateTime);
+                    findArticleEntitiesByCategory(ArticleEntityCategories.valueOf(category.toUpperCase(Locale.ROOT)), sortByPublicationDateTime);
             return ArticleUtils.toDtoListConverter(articleEntities);
         }
         throw new ArticleServiceException("Category " + category + " not found.");
@@ -93,7 +93,7 @@ public class ArticleServiceImpl implements ArticlesService {
             UserEntity user = userService.fetchUserById(userId);
             if (!ArticleUtils.isValidCategory(category))
                 throw new ArticleServiceException("Wrong article category.");
-            List<ArticleEntity> articleEntities = saveArticles(articleDtos, user, ArticleEntityCategories.valueOf(category));
+            List<ArticleEntity> articleEntities = saveArticles(articleDtos, user, ArticleEntityCategories.valueOf(category.toUpperCase(Locale.ROOT)));
             return ArticleUtils.toDtoListConverter(articleEntities);
         } catch (IOException ex) {
             log.debug(ex.getMessage());

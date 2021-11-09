@@ -60,7 +60,7 @@ public class ArticleUtils {
     public static ArticleDto readZipToArticle(ZipEntry zipEntry, ZipFile zipFile, int minCountOfLines) throws CustomFileUploadException {
         try (BufferedReader bufferedReaderForLineCounting = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)));
              BufferedReader bufferedReaderForLineReading = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)))) {
-            if (bufferedReaderForLineCounting.lines().count() <= minCountOfLines)
+            if (bufferedReaderForLineCounting.lines().count() < minCountOfLines)
                 throw new CustomFileUploadException("Not enough lines in the file " + zipEntry.getName());
             String headLine = bufferedReaderForLineReading.readLine();
             String fullText = bufferedReaderForLineReading.lines().collect(Collectors.joining());

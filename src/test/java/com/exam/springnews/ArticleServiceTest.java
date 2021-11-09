@@ -43,7 +43,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ArticleServiceTests {
+public class ArticleServiceTest {
 
     @Mock
     private ArticlesRepository articlesRepository;

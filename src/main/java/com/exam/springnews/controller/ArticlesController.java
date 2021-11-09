@@ -44,7 +44,6 @@ public class ArticlesController {
             return "article";
         } catch (CustomApplicationException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            log.debug(e.getMessage());
             return "error";
         }
     }
@@ -56,8 +55,11 @@ public class ArticlesController {
             model.addAttribute("articles", articles);
             model.addAttribute("category", category);
             return "index";
+        } catch (CustomApplicationException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.debug("text", e);
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
@@ -71,8 +73,11 @@ public class ArticlesController {
             model.addAttribute("users", users);
             model.addAttribute("categories", categories);
             return "upload";
+        } catch (CustomApplicationException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.debug("text", e);
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
@@ -100,11 +105,10 @@ public class ArticlesController {
                 throw new CustomApplicationException(message);
             } else return "redirect:/article/" + newArticles.get(0).getId();
         } catch (CustomApplicationException e) {
-            log.debug(e.getMessage());
             attributes.addFlashAttribute("warningMessage", e.getMessage());
             return "redirect:/new_article";
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.debug("text", e);
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }

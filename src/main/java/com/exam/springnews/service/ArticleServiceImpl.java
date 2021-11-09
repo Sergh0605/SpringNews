@@ -65,10 +65,14 @@ public class ArticleServiceImpl implements ArticlesService {
             List<ArticleEntity> articleEntities = articlesRepository.
                     findArticleEntitiesByCategory(ArticleEntityCategories.valueOf(category.toUpperCase(Locale.ROOT)), sortByPublicationDateTime);
             return ArticleUtils.toDtoListConverter(articleEntities);
+        } else {
+            ArticleServiceException e = new ArticleServiceException("Category " + category + " not found.");
+            log.debug(e.getMessage());
+            throw e;
         }
-        throw new ArticleServiceException("Category " + category + " not found.");
     }
 
+    //OPTION Service should work with many files in ZIP archive. It depends on parameters in application.property
     @Override
     @Transactional
     public List<ArticleDto> createArticle(MultipartFile file,
@@ -77,7 +81,9 @@ public class ArticleServiceImpl implements ArticlesService {
                                           String realPathToUpload) throws CustomApplicationException {
         try {
             if (!(file.getContentType() == null) && !file.getContentType().contains("zip")) {
-                throw new CustomFileUploadException("Invalid file type.");
+                CustomFileUploadException e = new CustomFileUploadException("Invalid file type.");
+                log.debug(e.getMessage());
+                throw e;
             }
             String fileName = "tmp" + file.getOriginalFilename();
             File tempFile = new File(realPathToUpload, fileName);
@@ -91,13 +97,26 @@ public class ArticleServiceImpl implements ArticlesService {
                 tempFile.delete();
             }
             UserEntity user = userService.fetchUserById(userId);
-            if (!ArticleUtils.isValidCategory(category))
-                throw new ArticleServiceException("Wrong article category.");
+            if (!ArticleUtils.isValidCategory(category)) {
+                ArticleServiceException e = new ArticleServiceException("Wrong article category.");
+                log.debug(e.getMessage());
+                throw e;
+            }
+
             List<ArticleEntity> articleEntities = saveArticles(articleDtos, user, ArticleEntityCategories.valueOf(category.toUpperCase(Locale.ROOT)));
             return ArticleUtils.toDtoListConverter(articleEntities);
-        } catch (IOException ex) {
+        } catch (CustomApplicationException e) {
+            throw e;
+        } catch (IOException e) {
+            log.debug("Exception in ArticleServiceImpl", e);
+            CustomFileUploadException ex = new CustomFileUploadException("ZIP file read error.");
             log.debug(ex.getMessage());
-            throw new CustomFileUploadException("ZIP file read error.");
+            throw ex;
+        } catch (Exception e) {
+            log.debug("Exception in ArticleServiceImpl", e);
+            CustomFileUploadException ex = new CustomFileUploadException("Can't parse or save uploaded file.");
+            log.debug(ex.getMessage());
+            throw ex;
         }
     }
 

@@ -36,13 +36,23 @@ public class ArticleUtils {
     }
 
     public static Map<ZipEntry, ZipFile> zipFileValidation(ZipFile zipFile, int maxCountOfFilesInZip) throws CustomApplicationException {
-        if (zipFile.stream().findAny().isEmpty()) throw new CustomFileUploadException("ZIP is empty.");
-        if (zipFile.stream().count() > maxCountOfFilesInZip)
-            throw new CustomFileUploadException("There is more than " + maxCountOfFilesInZip + " files in the ZIP.");
+        if (zipFile.stream().findAny().isEmpty()) {
+            CustomFileUploadException e = new CustomFileUploadException("ZIP is empty.");
+            log.debug(e.getMessage());
+            throw e;
+        }
+        if (zipFile.stream().count() > maxCountOfFilesInZip) {
+            CustomFileUploadException e = new CustomFileUploadException("There is more than " + maxCountOfFilesInZip + " files in the ZIP.");
+            log.debug(e.getMessage());
+            throw e;
+        }
         if (maxCountOfFilesInZip == 1) {
             ZipEntry zipEntry = zipFile.entries().nextElement();
-            if (!zipEntry.getName().equals("article.txt"))
-                throw new CustomFileUploadException("The file article.txt is missing in the ZIP.");
+            if (!zipEntry.getName().equals("article.txt")) {
+                CustomApplicationException e = new CustomFileUploadException("The file article.txt is missing in the ZIP.");
+                log.debug(e.getMessage());
+                throw e;
+            }
         }
         Map<ZipEntry, ZipFile> outputMap = new HashMap<>();
         zipFile.stream().forEach(e -> {
@@ -60,14 +70,29 @@ public class ArticleUtils {
     public static ArticleDto readZipToArticle(ZipEntry zipEntry, ZipFile zipFile, int minCountOfLines) throws CustomFileUploadException {
         try (BufferedReader bufferedReaderForLineCounting = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)));
              BufferedReader bufferedReaderForLineReading = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)))) {
-            if (bufferedReaderForLineCounting.lines().count() < minCountOfLines)
-                throw new CustomFileUploadException("Not enough lines in the file " + zipEntry.getName());
+            if (bufferedReaderForLineCounting.lines().count() < minCountOfLines) {
+                CustomApplicationException e = new CustomFileUploadException("Not enough lines in the file " + zipEntry.getName());
+                log.debug(e.getMessage());
+                throw e;
+            }
             String headLine = bufferedReaderForLineReading.readLine();
+            if (headLine.isEmpty()) {
+                CustomApplicationException e = new CustomFileUploadException("Headline is Empty in file " + zipEntry.getName());
+                log.debug(e.getMessage());
+                throw e;
+            }
             String fullText = bufferedReaderForLineReading.lines().collect(Collectors.joining());
+            if (fullText.isEmpty()) {
+                CustomApplicationException e = new CustomFileUploadException("Article body is Empty in file " + zipEntry.getName());
+                log.debug(e.getMessage());
+                throw e;
+            }
             return ArticleDto.builder().headline(headLine).fullText(fullText).build();
         } catch (IOException e) {
-            log.debug(e.getMessage());
-            throw new CustomFileUploadException("ZIP file read error.");
+            log.debug("Exception in ArticleUtils-readZipToArticle", e);
+            CustomApplicationException ex = new CustomFileUploadException("ZIP file read error.");
+            log.debug(ex.getMessage());
+            throw ex;
         }
     }
 }

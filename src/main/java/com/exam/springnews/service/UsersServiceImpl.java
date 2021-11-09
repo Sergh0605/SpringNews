@@ -72,7 +72,7 @@ public class UsersServiceImpl implements UserService {
         UserEntity user = UserEntity.builder()
                 .login(dto.getLogin())
                 .password(dto.getPassword())
-                .role(UserEntityRoles.valueOf(dto.getRole()))
+                .role(UserEntityRoles.valueOf(dto.getRole().toUpperCase(Locale.ROOT)))
                 .authorName(dto.getName())
                 .build();
         user = usersRepository.save(user);

@@ -96,3 +96,6 @@ JUnit
 3. Maximum upload size of file is 1Mb.
 4. For successful upload ZIP must contain only article.txt file and file must contain at least two non-blank lines.
 5. Encoding for article.txt is UTF-8 only.
+
+## Expiremental Deploy on OracleCloud (No Waranties)
+http://193.123.35.196:8085/

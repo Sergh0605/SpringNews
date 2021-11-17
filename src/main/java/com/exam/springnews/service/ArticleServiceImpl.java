@@ -18,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -31,14 +33,17 @@ public class ArticleServiceImpl implements ArticlesService {
     private final ArticlesRepository articlesRepository;
     private final UserService userService;
 
-    @Value("${zipProperties.maxCountOfFilesInZip:1}")
-    private Integer maxCountOfFilesInZip;
-    @Value("${zipProperties.minCountOfLinesInArticleFile:2}")
-    private Integer minCountOfLinesInArticleFile;
+    private final Integer maxCountOfFilesInZip;
+    private final Integer minCountOfLinesInArticleFile;
 
-    public ArticleServiceImpl(ArticlesRepository articlesRepository, UserService userService) {
+    public ArticleServiceImpl(ArticlesRepository articlesRepository,
+                              UserService userService,
+                              @Value("${zipProperties.maxCountOfFilesInZip:1}") Integer maxCountOfFilesInZip,
+                              @Value("${zipProperties.minCountOfLinesInArticleFile:2}") Integer minCountOfLinesInArticleFile) {
         this.articlesRepository = articlesRepository;
         this.userService = userService;
+        this.maxCountOfFilesInZip = maxCountOfFilesInZip;
+        this.minCountOfLinesInArticleFile = minCountOfLinesInArticleFile;
     }
 
     @Override

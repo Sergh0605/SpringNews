@@ -37,7 +37,7 @@ public class ArticleRestController {
 
     @PostMapping("/new")
     public ResponseEntity<?> uploadArticle(
-            @RequestParam("file") MultipartFile file,
+            @RequestPart("file") MultipartFile file,
             @RequestParam("authorId") Long authorId,
             @RequestParam("category") String category) {
         String realPathToUploads = request.getServletContext().getRealPath("");

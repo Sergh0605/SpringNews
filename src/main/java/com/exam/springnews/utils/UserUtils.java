@@ -2,7 +2,6 @@ package com.exam.springnews.utils;
 
 
 import com.exam.springnews.dto.UserDto;
-import com.exam.springnews.persistence.entity.article.ArticleEntityCategories;
 import com.exam.springnews.persistence.entity.user.UserEntity;
 import com.exam.springnews.persistence.entity.user.UserEntityRoles;
 

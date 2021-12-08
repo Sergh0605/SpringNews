@@ -15,7 +15,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 @ControllerAdvice
 public class RestControllerExceptionHandler {
 
-    private static final Logger log = getLogger(ArticleServiceImpl.class);
+    private static final Logger log = getLogger(RestControllerExceptionHandler.class);
 
     @ExceptionHandler(CustomApplicationException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

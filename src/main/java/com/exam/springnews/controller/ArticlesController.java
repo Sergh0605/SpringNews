@@ -20,7 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @Controller
 public class ArticlesController {
-    private static final Logger log = getLogger(ArticleServiceImpl.class);
+    private static final Logger log = getLogger(ArticlesController.class);
     private final ArticlesService articlesService;
     private final UserService userService;
     private final HttpServletRequest request;

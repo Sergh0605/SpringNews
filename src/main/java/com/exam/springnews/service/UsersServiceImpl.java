@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class UsersServiceImpl implements UserService {
     private final UsersRepository usersRepository;
-    private final static Logger log = getLogger(ArticleServiceImpl.class);
+    private final static Logger log = getLogger(UsersServiceImpl.class);
 
     public UsersServiceImpl(@Autowired UsersRepository usersRepository) {
         this.usersRepository = usersRepository;

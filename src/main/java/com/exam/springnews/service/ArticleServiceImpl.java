@@ -18,11 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -48,7 +46,7 @@ public class ArticleServiceImpl implements ArticlesService {
 
     @Override
     @Transactional(readOnly = true)
-    public ArticleDto fetchById(Integer id) throws ArticleServiceException {
+    public ArticleDto fetchById(Integer id) {
         Optional<ArticleEntity> article = articlesRepository.findById(id.longValue());
         if (article.isPresent()) {
             return article.map(ArticleDto::new).orElse(null);
@@ -59,7 +57,7 @@ public class ArticleServiceImpl implements ArticlesService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ArticleDto> fetchByCategory(String category) throws ArticleServiceException {
+    public List<ArticleDto> fetchByCategory(String category) {
         if (category.equalsIgnoreCase("all")) {
             return fetchAll();
         }

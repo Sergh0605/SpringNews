@@ -19,7 +19,7 @@ import java.util.zip.ZipFile;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ArticleUtils {
-    private final static Logger log = getLogger(ArticleServiceImpl.class);
+    private final static Logger log = getLogger(ArticleUtils.class);
 
     public static boolean isValidCategory(String category) {
         for (ArticleEntityCategories c : ArticleEntityCategories.values()) {
@@ -35,7 +35,7 @@ public class ArticleUtils {
                 collect(Collectors.toList());
     }
 
-    public static Map<ZipEntry, ZipFile> zipFileValidation(ZipFile zipFile, int maxCountOfFilesInZip) throws CustomApplicationException {
+    public static Map<ZipEntry, ZipFile> zipFileValidation(ZipFile zipFile, int maxCountOfFilesInZip) {
         if (zipFile.stream().findAny().isEmpty()) {
             CustomFileUploadException e = new CustomFileUploadException("ZIP is empty.");
             log.debug(e.getMessage());
@@ -61,7 +61,7 @@ public class ArticleUtils {
         return outputMap;
     }
 
-    public static List<ArticleDto> readZipToArticleListWithValidation(ZipFile zipFile, int maxCountOfFilesInZip, int minCountOfLines) throws CustomApplicationException {
+    public static List<ArticleDto> readZipToArticleListWithValidation(ZipFile zipFile, int maxCountOfFilesInZip, int minCountOfLines) {
         Map<ZipEntry, ZipFile> mapOfZipEntries = zipFileValidation(zipFile, maxCountOfFilesInZip);
         return mapOfZipEntries.entrySet().stream().
                 map(e -> readZipToArticle(e.getKey(), e.getValue(), minCountOfLines)).collect(Collectors.toList());
